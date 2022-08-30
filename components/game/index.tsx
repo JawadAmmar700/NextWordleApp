@@ -3,7 +3,7 @@ import Confetti from "react-confetti";
 import Modal from "./modal";
 
 const Game = () => {
-  const [word, setWord] = useState<string>("pizza");
+  const [word, setWord] = useState<string>("water");
   const [attempts, setAttempts] = useState<number>(0);
   const [guess, setGuess] = useState<string>("");
   const [current, setCurrent] = useState<number>(0);
@@ -98,7 +98,6 @@ const Game = () => {
   };
 
   const checkIfWordIsValid = async (guess: string) => {
-    console.log(guess);
     const endpoint = "entries";
     const language_code = "en-us";
     const url = `https://od-api.oxforddictionaries.com:443/api/v2/${endpoint}/${language_code}/${guess}`;
@@ -107,8 +106,8 @@ const Game = () => {
         method: "GET",
         headers: {
           Accept: "application/json",
-          app_id: "dc6a7d90",
-          app_key: "d7ffde28b5eeddd24b26bce465f4a156",
+          app_id: `${process.env.NEXT_PUBLIC_APP_ID}`,
+          app_key: `${process.env.NEXT_PUBLIC_APP_KEY}`,
         },
       });
       const { error } = await response.json();
@@ -156,7 +155,7 @@ const Game = () => {
   };
 
   return (
-    <div className="relative ">
+    <div className="relative p-4">
       {showModal && (
         <Modal setShowModal={setShowModal} reset={reset} status={status} />
       )}

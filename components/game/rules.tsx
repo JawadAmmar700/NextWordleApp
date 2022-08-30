@@ -2,18 +2,18 @@ import React from "react";
 
 const Rules = () => {
   return (
-    <div className="flex flex-col items-center space-y-4 py-4">
-      <div className="w-[500px] h-8 rounded bg-slate-200 flex items-center justify-center font-medium text-md">
+    <div className="flex flex-col items-center space-y-4 py-4 px-12">
+      <div className="w-full md:w-[400px] h-8 rounded bg-slate-200 flex items-center justify-center font-medium text-md">
         <p>How to play</p>
       </div>
-      <p className="w-[400px] text-center text-sm text-gray-500">
+      <p className="w-full md:w-[400px] text-center text-sm text-gray-500 px-4">
         You have to guess the hidden word in 6 tries and the color of the
         letters changes to show how close you are.
       </p>
-      <p className="w-[400px] text-center text-sm text-gray-500">
+      <p className="w-full md:w-[400px] text-center text-sm text-gray-500 px-4">
         To start the game, just enter any word, for example:
       </p>
-      <div className="flex space-x-2 ">
+      <div className="flex space-x-2">
         <div className="w-[50px] h-[50px] flex items-center justify-center text-md font-medium rounded bg-gray-500 ">
           T
         </div>
@@ -30,7 +30,7 @@ const Rules = () => {
           E
         </div>
       </div>
-      <div className="w-[350px] h-[120px] flex p-3 text-md font flex-col space-y-2 rounded bg-slate-200">
+      <div className="w-full md:w-[350px] flex p-3 text-md font flex-col space-y-2 rounded bg-slate-200">
         <div className="flex space-x-1 ">
           <span className="w-[20px] h-[20px] flex items-center justify-center text-md font-medium rounded bg-gray-500">
             T

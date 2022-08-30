@@ -1,6 +1,12 @@
 import React from "react";
 
-const Modal = ({ setShowModal, reset, status }: any) => {
+type Props = {
+  setShowModal: (showModal: boolean) => void;
+  reset: () => void;
+  status: string;
+};
+
+const Modal = ({ setShowModal, reset, status }: Props) => {
   return (
     <>
       <div className="justify-center items-center flex overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none">
