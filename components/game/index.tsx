@@ -14,6 +14,7 @@ const Game = () => {
   const [status, setStatus] = useState<string>("");
   const [error, setError] = useState<string>("");
   const [os, setOs] = useState<string>("");
+  const [screenSize, setScreenSize] = useState<any>({ x: 0, y: 0 });
 
   let rowRefs = useRef<Array<HTMLDivElement | null>>(new Array(6).fill(null));
 
@@ -23,7 +24,6 @@ const Game = () => {
 
   useEffect(() => {
     let details = navigator.userAgent;
-
     let regexp = /android|iphone|kindle|ipad/i;
     let isMobileDevice = regexp.test(details);
     if (isMobileDevice) {
@@ -31,6 +31,7 @@ const Game = () => {
     } else {
       setOs("Desktop");
     }
+    setScreenSize({ x: window.innerWidth, y: window.innerHeight });
   }, []);
 
   useEffect(() => {
@@ -205,13 +206,13 @@ const Game = () => {
   };
 
   return (
-    <div className="relative p-4">
+    <div className=" p-4">
       {showModal && (
         <Modal setShowModal={setShowModal} reset={reset} status={status} />
       )}
       {won && (
-        <div className="absolute -top-24">
-          <Confetti width={300} height={300} />
+        <div className="">
+          <Confetti width={screenSize.x} height={screenSize.y} />
         </div>
       )}
       <div className="flex flex-col relative">
