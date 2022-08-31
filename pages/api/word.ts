@@ -8,8 +8,8 @@ type Data = {
   guess: string;
 };
 
-const APP_ID = `${process.env.NEXT_PUBLIC_APP_ID}`;
-const APP_KEY = `${process.env.NEXT_PUBLIC_APP_KEY}`;
+const APP_ID = `${process.env.APP_ID}`;
+const APP_KEY = `${process.env.APP_KEY}`;
 const endpoint = "entries";
 const language_code = "en-us";
 
