@@ -1,5 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import Confetti from "react-confetti";
+import Keyboard from "react-simple-keyboard";
+import "react-simple-keyboard/build/css/index.css";
 import Modal from "./modal";
 
 const Game = () => {
@@ -11,12 +13,25 @@ const Game = () => {
   const [showModal, setShowModal] = useState<boolean>(false);
   const [status, setStatus] = useState<string>("");
   const [error, setError] = useState<string>("");
+  const [os, setOs] = useState<string>("");
 
   let rowRefs = useRef<Array<HTMLDivElement | null>>(new Array(6).fill(null));
 
   const wait = (fn: any, ms: number) => {
     return new Promise((resolve) => setTimeout(() => resolve(fn()), ms));
   };
+
+  useEffect(() => {
+    let details = navigator.userAgent;
+
+    let regexp = /android|iphone|kindle|ipad/i;
+    let isMobileDevice = regexp.test(details);
+    if (isMobileDevice) {
+      setOs("Mobile");
+    } else {
+      setOs("Desktop");
+    }
+  }, []);
 
   useEffect(() => {
     window.addEventListener("keydown", handlePress);
@@ -46,15 +61,14 @@ const Game = () => {
     }
 
     if (e.key === "Enter") {
-      // if (attempts >= 5) {
-
-      // }
       if (!guess) {
         setError("please enter a guess");
-        setTimeout(() => {
-          setError("");
-        }, 600);
-
+        await wait(() => setError(""), 600);
+        return;
+      }
+      if (guess.length < 5) {
+        setError("Too short");
+        await wait(() => setError(""), 600);
         return;
       }
       await checkIfWordIsValid(guess);
@@ -154,6 +168,45 @@ const Game = () => {
     currentRow.style.transition = `background-color ${i + 0.1 * 0.5}s ease`;
   };
 
+  const handleKeyboardPress = async (e: any) => {
+    let row: any = rowRefs.current[attempts]?.children;
+    if (
+      attempts <= 5 &&
+      current <= 4 &&
+      e !== "{enter}" &&
+      e !== "{backspace}"
+    ) {
+      setGuess((prev) => prev + e);
+      if (!row[current].innerHTML) {
+        row[current].innerHTML = e;
+        row[current].classList.add("active");
+        setCurrent(current + 1);
+      }
+    }
+    if (e === "{backspace}") {
+      if (current >= 1) {
+        row[current - 1].innerHTML = "";
+        row[current - 1].classList.remove("active");
+        deleteLetter();
+        setCurrent(current - 1);
+      }
+    }
+
+    if (e === "{enter}") {
+      if (!guess) {
+        setError("please enter a guess");
+        await wait(() => setError(""), 600);
+        return;
+      }
+      if (guess.length < 5) {
+        setError("Too short");
+        await wait(() => setError(""), 600);
+        return;
+      }
+      await checkIfWordIsValid(guess);
+    }
+  };
+
   return (
     <div className="relative p-4">
       {showModal && (
@@ -185,6 +238,22 @@ const Game = () => {
           </div>
         ))}
       </div>
+      {os === "Mobile" && (
+        <div className="mt-5">
+          <Keyboard
+            keyboardRef={(r) => console.log(r)}
+            layoutName="default"
+            onKeyPress={handleKeyboardPress}
+            layout={{
+              default: [
+                "q w e r t y u i o p",
+                "a s d f g h j k l {enter}",
+                "z x c v b n m {backspace}",
+              ],
+            }}
+          />
+        </div>
+      )}
     </div>
   );
 };

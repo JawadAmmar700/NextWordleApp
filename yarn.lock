@@ -570,6 +570,11 @@ react-dom@18.1.0:
     loose-envify "^1.1.0"
     scheduler "^0.22.0"
 
+react-simple-keyboard@^3.4.196:
+  version "3.4.196"
+  resolved "https://registry.yarnpkg.com/react-simple-keyboard/-/react-simple-keyboard-3.4.196.tgz#326a6ad3baa5d90007a6a461ca0304f776dcac1b"
+  integrity sha512-G82d5l0GO2szQQtYR9PPTEV0Z8K6b6/pzQv57ISV83xpnkduFQ0//4apay7ifBSNVRm6iz7wW/h5nmo7brjkVA==
+
 react@18.1.0:
   version "18.1.0"
   resolved "https://registry.yarnpkg.com/react/-/react-18.1.0.tgz#6f8620382decb17fdc5cc223a115e2adbf104890"
