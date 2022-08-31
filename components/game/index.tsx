@@ -113,7 +113,7 @@ const Game = () => {
 
   const checkIfWordIsValid = async (guess: string) => {
     try {
-      const response = await fetch(`${process.env.NEXT_PUBLIC_URL}/api/word`, {
+      const response = await fetch(`${process.env.NEXT_PUBLIC_URL}api/word`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
