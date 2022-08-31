@@ -112,17 +112,14 @@ const Game = () => {
   };
 
   const checkIfWordIsValid = async (guess: string) => {
-    const endpoint = "entries";
-    const language_code = "en-us";
-    const url = `https://od-api.oxforddictionaries.com:443/api/v2/${endpoint}/${language_code}/${guess}`;
     try {
-      const response = await fetch(url, {
-        method: "GET",
+      const response = await fetch(`${process.env.NEXT_PUBLIC_URL}/api/word`, {
+        method: "POST",
         headers: {
+          "Content-Type": "application/json",
           Accept: "application/json",
-          app_id: `${process.env.NEXT_PUBLIC_APP_ID}`,
-          app_key: `${process.env.NEXT_PUBLIC_APP_KEY}`,
         },
+        body: JSON.stringify({ word: guess }),
       });
       const { error } = await response.json();
       if (error) {
