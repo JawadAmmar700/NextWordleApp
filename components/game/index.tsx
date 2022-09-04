@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import Confetti from "react-confetti";
 import Keyboard from "react-simple-keyboard";
 import "react-simple-keyboard/build/css/index.css";
@@ -21,6 +21,31 @@ const Game = () => {
   const wait = (fn: any, ms: number) => {
     return new Promise((resolve) => setTimeout(() => resolve(fn()), ms));
   };
+
+  const fetchWord = async () => {
+    const options = {
+      method: "GET",
+      headers: {
+        "X-RapidAPI-Key": `${process.env.NEXT_PUBLIC_RAPID_API_KEY}`,
+        "X-RapidAPI-Host": "random-words5.p.rapidapi.com",
+      },
+    };
+    try {
+      const res = await fetch(
+        "https://random-words5.p.rapidapi.com/getMultipleRandom?count=1&wordLength=5",
+        options
+      );
+      const data = await res.json();
+      setWord(data[0]);
+      console.log(data);
+    } catch (e) {
+      throw e;
+    }
+  };
+
+  useEffect(() => {
+    fetchWord();
+  }, []);
 
   useEffect(() => {
     let details = navigator.userAgent;
@@ -141,7 +166,7 @@ const Game = () => {
     return;
   };
 
-  const reset = () => {
+  const reset = async () => {
     for (let i = 0; i < attempts; i++) {
       let currentRow: any = rowRefs.current[i]?.children;
       for (let j = 0; j < currentRow.length; j++) {
@@ -151,6 +176,7 @@ const Game = () => {
         currentRow[j].style.transition = "none";
       }
     }
+    await fetchWord();
     setAttempts(0);
     setCurrent(0);
     setGuess("");
