@@ -3,6 +3,7 @@ import Confetti from "react-confetti";
 import Keyboard from "react-simple-keyboard";
 import "react-simple-keyboard/build/css/index.css";
 import Modal from "./modal";
+import { words } from "../../words";
 
 const Game = () => {
   const [word, setWord] = useState<string>("water");
@@ -23,24 +24,27 @@ const Game = () => {
   };
 
   const fetchWord = async () => {
-    const options = {
-      method: "GET",
-      headers: {
-        "X-RapidAPI-Key": `${process.env.NEXT_PUBLIC_RAPID_API_KEY}`,
-        "X-RapidAPI-Host": "random-words5.p.rapidapi.com",
-      },
-    };
-    try {
-      const res = await fetch(
-        "https://random-words5.p.rapidapi.com/getMultipleRandom?count=1&wordLength=5",
-        options
-      );
-      const data = await res.json();
-      setWord(data[0]);
-      console.log(data);
-    } catch (e) {
-      throw e;
-    }
+    // const options = {
+    //   method: "GET",
+    //   headers: {
+    //     "X-RapidAPI-Key": `${process.env.NEXT_PUBLIC_RAPID_API_KEY}`,
+    //     "X-RapidAPI-Host": "random-words5.p.rapidapi.com",
+    //   },
+    // };
+    // try {
+    //   const res = await fetch(
+    //     "https://random-words5.p.rapidapi.com/getMultipleRandom?count=1&wordLength=5",
+    //     options
+    //   );
+    //   const data = await res.json();
+    //   setWord(data[0]);
+    //   console.log(data);
+    // } catch (e) {
+    //   throw e;
+    // }
+    const picked = Math.floor(Math.random() * words.length + 1);
+    console.log(words[picked]);
+    setWord(words[picked]);
   };
 
   useEffect(() => {
