@@ -6,9 +6,10 @@ import Modal from "./modal";
 import { words } from "../../words";
 
 const Game = () => {
-  const [word, setWord] = useState<string>("water");
+  const [word, setWord] = useState<string>("");
   const [attempts, setAttempts] = useState<number>(0);
   const [guess, setGuess] = useState<string>("");
+  const [enterState, setEnterState] = useState<number>(0);
   const [current, setCurrent] = useState<number>(0);
   const [won, setWon] = useState<boolean>(false);
   const [showModal, setShowModal] = useState<boolean>(false);
@@ -69,7 +70,7 @@ const Game = () => {
     return () => {
       window.removeEventListener("keydown", handlePress);
     };
-  }, [attempts, guess, current]);
+  }, [attempts, guess, current, enterState]);
 
   const handlePress = async (e: any) => {
     let row: any = rowRefs.current[attempts]?.children;
@@ -89,8 +90,8 @@ const Game = () => {
         setCurrent(current - 1);
       }
     }
-
-    if (e.key === "Enter") {
+    if (e.key === "Enter" && enterState < 1) {
+      setEnterState(enterState + 1);
       if (!guess) {
         setError("please enter a guess");
         await wait(() => setError(""), 600);
@@ -164,9 +165,11 @@ const Game = () => {
     }
     await checkIfCorrect();
     attempts <= 5 && setAttempts((prev) => prev + 1);
+    console.log("first");
     setCurrent(0);
     setError("");
     setGuess("");
+    setEnterState(0);
     return;
   };
 
@@ -180,10 +183,13 @@ const Game = () => {
         currentRow[j].style.transition = "none";
       }
     }
-    await fetchWord();
+    if (status === "You won 🎉") {
+      await fetchWord();
+    }
     setAttempts(0);
     setCurrent(0);
     setGuess("");
+    setEnterState(0);
     setShowModal(false);
   };
 
@@ -220,7 +226,8 @@ const Game = () => {
       }
     }
 
-    if (e === "{enter}") {
+    if (e === "{enter}" && enterState < 1) {
+      setEnterState(enterState + 1);
       if (!guess) {
         setError("please enter a guess");
         await wait(() => setError(""), 600);
